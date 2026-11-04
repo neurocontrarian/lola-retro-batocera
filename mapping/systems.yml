@@ -1,0 +1,317 @@
+# Which picture each Batocera system gets, in every Lola Retro shader set.
+#
+# Value forms:
+#   <name>                a Lola Retro preset: a system preset (systems/<name>) if one exists,
+#                         else a preset by device (curved/<name>, flat/<name>), which guesses the
+#                         console timing from the frame size
+#   {lola: <name>, as: <file name>, params: {LR_X: v}}
+#                         the same, with parameters set for this system only
+#   stock:<path>          one of Batocera's own shaders (handhelds had LCD screens, not CRTs)
+#   none                  no shader
+#
+# Batocera's shader sets only reach RetroArch cores; systems run by a standalone emulator keep
+# their own filters. They are still listed, so switching such a system to a RetroArch core
+# (Batocera's per-system "Emulator" option) gets the right picture.
+# Systems missing from this list get `default`.
+
+default: consumer-tv-scart-rgb
+
+systems:
+  # ---- Nintendo ----
+  nes: nes
+  fds: nes
+  zc210: nes                      # Zelda Classic: NES-sized picture
+  snes: snes
+  snes-msu1: snes
+  satellaview: snes
+  sufami: snes
+  sgb: snes                       # Super Game Boy runs on a SNES and a TV
+  sgb-msu1: snes
+  n64: nintendo-64
+  n64dd: nintendo-64
+  gamecube: gamecube
+  wii: gamecube
+  triforce: gamecube
+  wiiu: none
+  virtualboy: none                # red LED mirrors, no tube
+  gb: stock:handheld/lcd-grid-v2
+  gbc: stock:handheld/lcd-grid-v2
+  gb2players: stock:handheld/lcd-grid-v2
+  gbc2players: stock:handheld/lcd-grid-v2
+  gba: stock:handheld/lcd-grid-v2
+  pokemini: stock:handheld/lcd-grid-v2
+  nds: none
+  3ds: none
+  gameandwatch: none
+  lcdgames: none
+
+  # ---- Sega ----
+  sg1000: master-system
+  mastersystem: master-system
+  multivision: master-system
+  sc3000: master-system
+  segaai: master-system
+  megadrive: mega-drive-genesis
+  megadrive-msu: mega-drive-genesis
+  megacd: mega-drive-genesis
+  sega32x: mega-drive-genesis
+  pico: mega-drive-genesis
+  beena: consumer-tv-composite
+  saturn: saturn
+  dreamcast: dreamcast
+  gamegear: stock:handheld/lcd-grid-v2
+  vemulator: none
+  # Sega arcade: Naomi-era boards drove 31 kHz (VGA) monitors, Model 2/3 24 kHz ones
+  naomi: dos-pc
+  naomi2: dos-pc
+  atomiswave: dos-pc
+  systemsp: dos-pc
+  hikaru: dos-pc
+  chihiro: dos-pc
+  model2: studio-monitor-rgb
+  model3: studio-monitor-rgb
+  lindbergh: none
+
+  # ---- Sony ----
+  # The default PlayStation cores send the console's own 1x frames: console timing 4, and
+  # frames over 300 lines are the console's 480i (README of Lola Retro, "Systems").
+  # At 2x internal resolution set "Frames over 300 lines" back to 0 in the shader parameters.
+  psx: {lola: playstation, as: playstation-1x, params: {LR_CONSOLE: 4, LR_HIRES: 1}}
+  ps2: playstation-2
+  namco2x6: playstation-2
+  ps3: none
+  ps4: none
+  psp: none
+  psvita: none
+  namco3xx: none
+
+  # ---- NEC ----
+  pcengine: pc-engine-turbografx
+  pcenginecd: pc-engine-turbografx
+  supergrafx: pc-engine-turbografx
+  pcfx: pc-engine-turbografx
+  pc98: pc-98
+  pc88: pc-98
+  pc60: consumer-tv-composite
+  pc80: consumer-tv-composite
+
+  # ---- SNK ----
+  neogeo: arcade-15khz
+  neogeocd: consumer-tv-scart-rgb
+  ngp: stock:handheld/lcd-grid-v2
+  ngpc: stock:handheld/lcd-grid-v2
+
+  # ---- Arcade ----
+  mame: arcade-15khz
+  fbneo: arcade-15khz
+  fba: arcade-15khz               # older Batocera name
+  cave3rd: arcade-15khz
+  gaelco: arcade-15khz
+  dice: arcade-15khz
+  daphne: arcade-15khz
+  singe: arcade-15khz
+  namco22: studio-monitor-rgb     # 24 kHz medium resolution
+
+  # ---- Atari ----
+  atari2600: consumer-tv-composite
+  atari5200: consumer-tv-composite
+  atari7800: consumer-tv-composite
+  atari800: consumer-tv-composite
+  xegs: consumer-tv-composite
+  jaguar: consumer-tv-composite
+  jaguarcd: consumer-tv-composite
+  atarist: amiga-1084s            # SC1224 colour monitor, same class as the 1084S
+  lynx: stock:handheld/lcd-grid-v2
+
+  # ---- Commodore ----
+  c64: consumer-tv-composite
+  c128: consumer-tv-composite
+  c20: consumer-tv-composite
+  cplus4: consumer-tv-composite
+  pet: studio-monitor-composite
+  amiga500: amiga
+  amiga1200: amiga
+  amiga: amiga                    # older Batocera name
+  amigacd32: amiga
+  amigacdtv: amiga
+
+  # ---- MSX and TMS9918 family (Lola Retro: "Master System, also MSX, ColecoVision") ----
+  msx: master-system              # older Batocera name
+  msx1: master-system
+  msx2: master-system
+  msx2+: master-system
+  msxturbor: master-system
+  spectravideo: master-system
+  colecovision: master-system
+  adam: master-system
+
+  # ---- Other consoles on a TV ----
+  3do: consumer-tv-composite
+  cdi: consumer-tv-scart-rgb
+  intellivision: consumer-tv-composite
+  odyssey2: consumer-tv-composite
+  videopacplus: consumer-tv-composite
+  channelf: consumer-tv-composite
+  arcadia: consumer-tv-composite
+  apfm1000: consumer-tv-composite
+  astrocade: consumer-tv-composite
+  crvision: consumer-tv-composite
+  ctvboy: consumer-tv-composite
+  cassettevision: consumer-tv-composite
+  scv: consumer-tv-composite
+  sv8000: consumer-tv-composite
+  vc4000: consumer-tv-composite
+  pv1000: consumer-tv-composite
+  pv2000: consumer-tv-composite
+  gong: consumer-tv-composite
+  loopy: consumer-tv-composite
+  vsmile: consumer-tv-composite
+  socrates: consumer-tv-composite
+  tvgames: consumer-tv-composite
+  supracan: consumer-tv-composite
+  uzebox: consumer-tv-composite
+  gametank: consumer-tv-composite
+  vis: consumer-tv-composite
+  advision: none                  # LED and spinning mirror
+  vectrex: none                   # vector monitor: no lines, no mask
+
+  # ---- Computers ----
+  dos: dos-pc
+  windows: dos-pc
+  windows_installers: dos-pc
+  scummvm: dos-pc
+  commanderx16: dos-pc
+  fmtowns: dos-pc
+  x68000: x68000
+  x1: studio-monitor-rgb
+  fm7: studio-monitor-rgb
+  mz2500: studio-monitor-rgb
+  mz2000: studio-monitor-composite
+  mz700: studio-monitor-composite
+  mz800: studio-monitor-composite
+  mz80k: studio-monitor-composite
+  amstradcpc: studio-monitor-rgb  # CTM644 colour monitor
+  gx4000: studio-monitor-rgb
+  pcw: studio-monitor-composite
+  bbcmicro: studio-monitor-rgb
+  electron: studio-monitor-rgb
+  atom: studio-monitor-rgb
+  archimedes: studio-monitor-rgb
+  apple2: studio-monitor-composite
+  apple2gs: studio-monitor-rgb
+  macintosh: none                 # built-in high-resolution black and white screen
+  thomson: consumer-tv-scart-rgb  # French machines on the SCART (Peritel) socket
+  oricatmos: consumer-tv-scart-rgb
+  samcoupe: consumer-tv-scart-rgb
+  enterprise: consumer-tv-scart-rgb
+  tvc: consumer-tv-scart-rgb
+  zxspectrum: consumer-tv-composite
+  zx81: old-tv-rf                 # RF only
+  bk: studio-monitor-composite
+  trs80: studio-monitor-composite
+  coco: consumer-tv-composite
+  dragon64: consumer-tv-composite
+  mc10: consumer-tv-composite
+  cgenie: consumer-tv-composite
+  laser310: consumer-tv-composite
+  camplynx: consumer-tv-composite
+  ti99: consumer-tv-composite
+  tutor: consumer-tv-composite
+  rx78: consumer-tv-composite
+  pdp1: none                      # point-plotting display
+  vgmplay: none
+  bennugd: consumer-tv-scart-rgb
+
+  # ---- Fantasy consoles ----
+  pico8: consumer-tv-scart-rgb
+  tic80: consumer-tv-scart-rgb
+  wasm4: consumer-tv-scart-rgb
+  lowresnx: consumer-tv-scart-rgb
+  vircon32: consumer-tv-scart-rgb
+  lutro: consumer-tv-scart-rgb
+  pyxel: consumer-tv-scart-rgb
+
+  # ---- Ports: DOS-era PC games on a VGA monitor ----
+  prboom: dos-pc
+  quake: dos-pc
+  abuse: dos-pc
+  bstone: dos-pc
+  catacomb: dos-pc
+  cdogs: dos-pc
+  cgenius: dos-pc
+  corsixth: dos-pc
+  devilutionx: dos-pc
+  dxx-rebirth: dos-pc
+  ecwolf: dos-pc
+  eduke32: dos-pc
+  fury: dos-pc
+  raze: dos-pc
+  uzdoom: dos-pc
+  rott: dos-pc
+  jkdf2: dos-pc
+  theforceengine: dos-pc
+  fallout1-ce: dos-pc
+  fallout2-ce: dos-pc
+  jazz2: dos-pc
+  openjazz: dos-pc
+  tyrian: dos-pc
+  uqm: dos-pc
+  sdlpop: dos-pc
+  hurrican: dos-pc
+  traider: dos-pc
+  # ---- Ports: pixel-art games ----
+  cavestory: consumer-tv-scart-rgb
+  mrboom: consumer-tv-scart-rgb
+  superbroswar: consumer-tv-scart-rgb
+  xrick: amiga
+  reminiscence: amiga
+  hcl: consumer-tv-scart-rgb
+  solarus: consumer-tv-scart-rgb
+  easyrpg: consumer-tv-scart-rgb
+  openbor: consumer-tv-scart-rgb
+  mugen: consumer-tv-scart-rgb
+  ikemen: consumer-tv-scart-rgb
+  cannonball: arcade-15khz
+  thextech: consumer-tv-scart-rgb
+  sonicretro: mega-drive-genesis
+  sonic-mania: none
+  sonic3-air: none
+  # ---- Ports: high-resolution 3D ----
+  quake2: none
+  quake3: none
+  doom3: none
+  halflife: none
+  mohaa: none
+  rtcw: none
+  jknight: none
+  etlegacy: none
+  opengoal: none
+  odcommander: none
+  flash: none
+
+  # ---- Handhelds (LCD screens) ----
+  wswan: stock:handheld/lcd-grid-v2
+  wswanc: stock:handheld/lcd-grid-v2
+  supervision: stock:handheld/lcd-grid-v2
+  megaduck: stock:handheld/lcd-grid-v2
+  gamate: stock:handheld/lcd-grid-v2
+  gmaster: stock:handheld/lcd-grid-v2
+  gamecom: stock:handheld/lcd-grid-v2
+  gamepock: stock:handheld/lcd-grid-v2
+  gp32: stock:handheld/lcd-grid-v2
+  arduboy: none                   # OLED
+  ngage: none
+  j2me: none
+
+  # ---- Not games, or modern systems ----
+  ports: none
+  xbox: none
+  xbox360: none
+  vpinball: none
+  pygame: none
+  flatpak: none
+  steam: none
+  moonlight: none
+  imageviewer: none
+  library: none
+  recordings: none
