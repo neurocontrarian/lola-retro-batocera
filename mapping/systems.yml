@@ -24,6 +24,9 @@ params:
   LR_DBLEND_AUTO: 1   # RGB and S-Video presets blend 1-pixel dither as composite did
   LR_DAMPER: 0        # no Trinitron damper wires across the picture (issue #16)
 
+# Names older Batocera versions used, kept so older installs get the right picture
+old_names: [fba, amiga, msx]
+
 lcd: &lcd stock:handheld/lcd-grid-v2   # handhelds had LCD screens, not tubes
 
 systems:

@@ -45,7 +45,11 @@ def files_opened(preset: Path) -> list[Path]:
 
 @functools.cache
 def _pragmas(path: Path) -> frozenset[str]:
-    return frozenset(_PRAGMA.findall(path.read_text())) if path.suffix in (".slang", ".inc") else frozenset()
+    if path.suffix not in (".slang", ".inc"):
+        return frozenset()
+    if not path.is_file():
+        raise SystemExit(f"missing {path}")
+    return frozenset(_PRAGMA.findall(path.read_text()))
 
 
 def declared_params(preset: Path) -> set[str]:

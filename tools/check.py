@@ -14,25 +14,24 @@ import yaml
 
 from presets import MAPPING, ROOT, STOCK_SHADERS, SYSTEMS_TSV, USER_SHADERS, files_opened
 
-OLD_NAMES = {"fba", "amiga", "msx"}  # names older Batocera versions used, kept in the mapping
-
 
 def main() -> int:
     errors: list[str] = []
     systems = [l.split("\t")[0] for l in SYSTEMS_TSV.read_text().splitlines() if l and not l.startswith("#")]
-    mapped = set(yaml.safe_load(MAPPING.read_text())["systems"])
+    mapping = yaml.safe_load(MAPPING.read_text())
+    mapped = set(mapping["systems"])
     if unmapped := [s for s in systems if s not in mapped]:
         errors.append(f"systems on the default entry: {' '.join(unmapped)}")
-    if unknown := sorted(mapped - set(systems) - OLD_NAMES):
+    if unknown := sorted(mapped - set(systems) - set(mapping["old_names"])):
         errors.append(f"mapping names Batocera doesn't have: {' '.join(unknown)}")
 
     opened: set = set()
     for yml in sorted(USER_SHADERS.glob("configs/*/rendering-defaults.yml")):
         doc = yaml.safe_load(yml.read_text())
         n = {"lola": 0, "stock": 0, "none": 0}
-        # load_defaults: the system's entry over `default` (one key, so a plain lookup does it)
-        for system, shader in [("default", doc["default"]["shader"])] + [
-                (s, doc.get(s, doc["default"])["shader"]) for s in systems]:
+        # load_defaults: the system's entry merged over `default`
+        for system in ["default"] + systems:
+            shader = {**doc["default"], **(doc.get(system) or {})}.get("shader")
             if shader is None:
                 n["none"] += 1
             elif (slang := USER_SHADERS / f"{shader}.slangp").exists():
@@ -46,7 +45,8 @@ def main() -> int:
                 errors.append(f"{yml.parent.name}/{system}: {shader} not found")
         print(f"{yml.parent.name:28} Lola {n['lola']:3}  stock {n['stock']:2}  none {n['none']:2}  (default included)")
 
-    errors += [f"missing {p.relative_to(ROOT)}" for p in sorted(opened) if not p.is_file()]
+    errors += [f"missing {p.relative_to(ROOT) if p.is_relative_to(ROOT) else p}"
+               for p in sorted(opened) if not p.is_file()]
     print(f"{len(opened)} files RetroArch opens" + ("" if errors else ", all present"))
     for e in errors:
         print("ERROR", e)
