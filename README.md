@@ -46,7 +46,7 @@ options avancées d'un système.
   configs/lola-retro*/rendering-defaults.yml   les six sets : quel preset pour quel système
 ```
 
-Réglages ajoutés par-dessus les presets d'origine (ceux retenus pour StrikeHD) :
+Réglages ajoutés par-dessus les presets d'origine (ceux retenus pour StrikeHD, section `params` de `mapping/systems.yml`) :
 
 | Paramètre | Valeur | Effet |
 |---|---|---|
@@ -63,7 +63,7 @@ Tous les paramètres restent réglables en jeu dans RetroArch (Hotkey + B → Me
 ## Ce que ça couvre, et ce que ça ne couvre pas
 
 - **Tous les systèmes lancés par un cœur RetroArch** (la grande majorité des systèmes rétro de Batocera).
-  La correspondance système → preset est dans `mapping/systems.yml` (260 systèmes listés).
+  La correspondance système → preset est dans `mapping/systems.yml` (tous les systèmes de Batocera y sont listés).
 - **Les émulateurs autonomes** (PCSX2, Dolphin, Mupen64Plus, DuckStation, PPSSPP, Cemu, MAME autonome…)
   n'utilisent pas les shader sets de Batocera : chacun a ses propres filtres. Les systèmes concernés sont
   quand même listés : en passant un système sur son cœur RetroArch (option *Émulateur* du système, par ex.
@@ -85,7 +85,7 @@ Batocera (issue batocera-linux/batocera.linux#17272), pas le shader.
 
 ```sh
 python3 tools/build.py   # dist/shaders/ et dist/lola-retro-batocera-<version>.zip
-python3 tools/check.py   # résout chaque système de chaque set comme Batocera, vérifie chaque fichier ouvert
+python3 tools/check.py   # vérifie que chaque système de Batocera est listé, résout chaque système de chaque set comme Batocera, vérifie chaque fichier ouvert
 ```
 
 - `third_party/lola-retro/` : `shaders/lola-retro` de Lola Retro au commit indiqué dans `UPSTREAM`.

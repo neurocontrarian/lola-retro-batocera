@@ -16,6 +16,16 @@
 
 default: consumer-tv-scart-rgb
 
+# Settings over every Lola Retro preset (the defaults StrikeHD settled on). A system's own
+# params win over these.
+params:
+  LR_MASK_PX: 1       # mask on whole screen pixels: no moire below 4K (Lola Retro issue #11)
+  LR_SMOOTH: 1        # each screen pixel shows the light averaged over its height: less moire
+  LR_DBLEND_AUTO: 1   # RGB and S-Video presets blend 1-pixel dither as composite did
+  LR_DAMPER: 0        # no Trinitron damper wires across the picture (issue #16)
+
+lcd: &lcd stock:handheld/lcd-grid-v2   # handhelds had LCD screens, not tubes
+
 systems:
   # ---- Nintendo ----
   nes: nes
@@ -34,12 +44,12 @@ systems:
   triforce: gamecube
   wiiu: none
   virtualboy: none                # red LED mirrors, no tube
-  gb: stock:handheld/lcd-grid-v2
-  gbc: stock:handheld/lcd-grid-v2
-  gb2players: stock:handheld/lcd-grid-v2
-  gbc2players: stock:handheld/lcd-grid-v2
-  gba: stock:handheld/lcd-grid-v2
-  pokemini: stock:handheld/lcd-grid-v2
+  gb: *lcd
+  gbc: *lcd
+  gb2players: *lcd
+  gbc2players: *lcd
+  gba: *lcd
+  pokemini: *lcd
   nds: none
   3ds: none
   gameandwatch: none
@@ -59,7 +69,7 @@ systems:
   beena: consumer-tv-composite
   saturn: saturn
   dreamcast: dreamcast
-  gamegear: stock:handheld/lcd-grid-v2
+  gamegear: *lcd
   vemulator: none
   # Sega arcade: Naomi-era boards drove 31 kHz (VGA) monitors, Model 2/3 24 kHz ones
   naomi: dos-pc
@@ -98,8 +108,8 @@ systems:
   # ---- SNK ----
   neogeo: arcade-15khz
   neogeocd: consumer-tv-scart-rgb
-  ngp: stock:handheld/lcd-grid-v2
-  ngpc: stock:handheld/lcd-grid-v2
+  ngp: *lcd
+  ngpc: *lcd
 
   # ---- Arcade ----
   mame: arcade-15khz
@@ -121,7 +131,7 @@ systems:
   jaguar: consumer-tv-composite
   jaguarcd: consumer-tv-composite
   atarist: amiga-1084s            # SC1224 colour monitor, same class as the 1084S
-  lynx: stock:handheld/lcd-grid-v2
+  lynx: *lcd
 
   # ---- Commodore ----
   c64: consumer-tv-composite
@@ -290,15 +300,15 @@ systems:
   flash: none
 
   # ---- Handhelds (LCD screens) ----
-  wswan: stock:handheld/lcd-grid-v2
-  wswanc: stock:handheld/lcd-grid-v2
-  supervision: stock:handheld/lcd-grid-v2
-  megaduck: stock:handheld/lcd-grid-v2
-  gamate: stock:handheld/lcd-grid-v2
-  gmaster: stock:handheld/lcd-grid-v2
-  gamecom: stock:handheld/lcd-grid-v2
-  gamepock: stock:handheld/lcd-grid-v2
-  gp32: stock:handheld/lcd-grid-v2
+  wswan: *lcd
+  wswanc: *lcd
+  supervision: *lcd
+  megaduck: *lcd
+  gamate: *lcd
+  gmaster: *lcd
+  gamecom: *lcd
+  gamepock: *lcd
+  gp32: *lcd
   arduboy: none                   # OLED
   ngage: none
   j2me: none

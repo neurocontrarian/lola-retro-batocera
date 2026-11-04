@@ -8,11 +8,7 @@ DEST=/userdata/shaders
 HERE=$(cd "$(dirname "$0")" && pwd)
 
 remove() {
-    rm -rf "$DEST/lola-retro" "$DEST/lola-retro-batocera"
-    for d in "$DEST"/configs/lola-retro*; do
-        [ -d "$d" ] && rm -rf "$d"
-    done
-    return 0
+    rm -rf "$DEST/lola-retro" "$DEST/lola-retro-batocera" "$DEST"/configs/lola-retro*
 }
 
 if [ "$1" = "--uninstall" ]; then

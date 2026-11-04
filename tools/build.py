@@ -7,26 +7,22 @@ Reads mapping/systems.yml and third_party/lola-retro, writes dist/shaders/ (the 
 dist/shaders/
   lola-retro/                      Lola Retro's RetroArch presets, unchanged
   lola-retro-batocera/<chain>/<glass>/<name>.slangp
-                                   small presets: #reference to Lola Retro's + the settings below
+                                   small presets: #reference to Lola Retro's + the mapping's params
   configs/<set>/rendering-defaults.yml
                                    one Batocera shader set: which preset each system gets
 """
 from __future__ import annotations
 
-import re
+import os
 import shutil
-import sys
 import zipfile
 from pathlib import Path
 
 import yaml
 
-ROOT = Path(__file__).resolve().parent.parent
-LOLA = ROOT / "third_party" / "lola-retro"
-MAPPING = ROOT / "mapping" / "systems.yml"
-DIST = ROOT / "dist"
-VERSION = (ROOT / "VERSION").read_text().strip()
+from presets import DIST, LOLA, MAPPING, ROOT, STOCK_SHADERS, USER_SHADERS, declared_params
 
+VERSION = (ROOT / "VERSION").read_text().strip()
 OURS = "lola-retro-batocera"
 
 # Shader sets as Batocera's menu lists them: (set folder, Lola Retro chain, glass)
@@ -39,52 +35,15 @@ SETS = [
     ("lola-retro-superlite-flat", "super-lite", "flat"),
 ]
 
-# Settings over Lola Retro's presets, for every system (the defaults StrikeHD settled on):
-COMMON_PARAMS = {
-    "LR_MASK_PX": 1,      # mask on whole screen pixels: no moire below 4K (Lola Retro issue #11)
-    "LR_SMOOTH": 1,       # each screen pixel shows the light averaged over its height: less moire
-    "LR_DBLEND_AUTO": 1,  # RGB and S-Video presets blend 1-pixel dither as composite did
-    "LR_DAMPER": 0,       # no Trinitron damper wires across the picture (issue #16)
-}
-
-
-def chain_dir(chain: str) -> Path:
-    return LOLA if chain == "full" else LOLA / chain
-
 
 def lola_preset(chain: str, glass: str, name: str) -> Path:
     """Lola Retro's preset for a system name or a device name."""
-    for folder in (chain_dir(chain) / "systems" / glass, chain_dir(chain) / glass):
+    base = LOLA if chain == "full" else LOLA / chain
+    for folder in (base / "systems" / glass, base / glass):
         path = folder / f"{name}.slangp"
         if path.exists():
             return path
     raise SystemExit(f"no Lola Retro preset '{name}' in {chain}/{glass}")
-
-
-_PRAGMA = re.compile(r"^#pragma parameter (\w+)", re.M)
-_INCLUDE = re.compile(r'^#include "([^"]+)"', re.M)
-
-
-def declared_params(preset: Path) -> set[str]:
-    """Every parameter the preset's passes declare (following #include)."""
-    names: set[str] = set()
-    seen: set[Path] = set()
-
-    def scan(path: Path) -> None:
-        path = path.resolve()
-        if path in seen:
-            return
-        seen.add(path)
-        text = path.read_text()
-        names.update(_PRAGMA.findall(text))
-        for inc in _INCLUDE.findall(text):
-            scan(path.parent / inc)
-
-    for line in preset.read_text().splitlines():
-        m = re.match(r"^shader\d+\s*=\s*\"?([^\"]+?)\"?\s*$", line)
-        if m:
-            scan(preset.parent / m.group(1))
-    return names
 
 
 def fmt(v: float | int) -> str:
@@ -92,63 +51,58 @@ def fmt(v: float | int) -> str:
 
 
 def entry(value) -> dict:
-    """Normalise one mapping value to {kind, name, as, params}."""
+    """One mapping value as {kind, name, as, params}."""
     if isinstance(value, dict):
         return {"kind": "lola", "name": value["lola"], "as": value.get("as", value["lola"]),
                 "params": value.get("params", {})}
-    if value is None or value == "none":
+    if value == "none":
         return {"kind": "none"}
     if value.startswith("stock:"):
-        return {"kind": "stock", "path": value[len("stock:"):]}
+        path = value[len("stock:"):]
+        if path not in STOCK_SHADERS:
+            raise SystemExit(f"{path}: not in presets.STOCK_SHADERS (Batocera's own shaders)")
+        return {"kind": "stock", "path": path}
     return {"kind": "lola", "name": value, "as": value, "params": {}}
 
 
 def build() -> None:
     mapping = yaml.safe_load(MAPPING.read_text())
-    systems = {k: entry(v) for k, v in mapping["systems"].items()}
+    common = mapping["params"]
     default = entry(mapping["default"])
+    systems = {k: entry(v) for k, v in mapping["systems"].items()}
 
-    out = DIST / "shaders"
-    if DIST.exists():
-        shutil.rmtree(DIST)
-    shutil.copytree(LOLA, out / "lola-retro")
+    variants: dict[str, tuple] = {}  # wrapper name -> (preset, params): one name, one meaning
+    for e in [default, *systems.values()]:
+        if e["kind"] == "lola":
+            key = (e["name"], sorted(e["params"].items()))
+            if variants.setdefault(e["as"], key) != key:
+                raise SystemExit(f"'{e['as']}' is used for two different presets or params")
 
-    wrappers: dict[tuple[str, str, str], str] = {}  # (chain, glass, as) -> path for rendering-defaults
-    for chain, glass in sorted({(c, g) for _, c, g in SETS}):
-        for e in [default, *systems.values()]:
-            if e["kind"] != "lola":
-                continue
-            key = (chain, glass, e["as"])
-            if key in wrappers:
-                continue
-            src = lola_preset(chain, glass, e["name"])
-            known = declared_params(src)
-            params = {**COMMON_PARAMS, **e["params"]}
-            missing = sorted(set(e["params"]) - known)
-            if missing:
-                raise SystemExit(f"{src}: no parameter {missing}")
-            dst = out / OURS / chain / glass / f"{e['as']}.slangp"
-            dst.parent.mkdir(parents=True, exist_ok=True)
-            ref = Path("..", "..", "..", src.relative_to(LOLA.parent)).as_posix()
-            lines = [f'#reference "{ref}"',
-                     f"# Lola Retro for Batocera {VERSION}: settings over the Lola Retro preset"]
-            lines += [f"{k} = {fmt(v)}" for k, v in params.items() if k in known]
-            dst.write_text("\n".join(lines) + "\n")
-            wrappers[key] = f"{OURS}/{chain}/{glass}/{e['as']}"
-
-    def shader_of(e: dict, chain: str, glass: str) -> str | None:
-        if e["kind"] == "none":
-            return None
-        if e["kind"] == "stock":
-            return e["path"]
-        return wrappers[(chain, glass, e["as"])]
+    shutil.rmtree(DIST, ignore_errors=True)
+    shutil.copytree(LOLA, USER_SHADERS / "lola-retro")
 
     for set_name, chain, glass in SETS:
-        doc = {"default": {"shader": shader_of(default, chain, glass), "scanline": False}}
-        for system, e in systems.items():
-            doc[system] = {"shader": shader_of(e, chain, glass)}
-        path = out / "configs" / set_name / "rendering-defaults.yml"
-        path.parent.mkdir(parents=True, exist_ok=True)
+        for name, (lola, own_params) in variants.items():
+            src = lola_preset(chain, glass, lola)
+            known = declared_params(src)
+            if missing := sorted(set(dict(own_params)) - known):
+                raise SystemExit(f"{src}: no parameter {missing}")
+            dst = USER_SHADERS / OURS / chain / glass / f"{name}.slangp"
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            ref = os.path.relpath(USER_SHADERS / "lola-retro" / src.relative_to(LOLA), dst.parent)
+            lines = [f'#reference "{Path(ref).as_posix()}"',
+                     f"# Lola Retro for Batocera {VERSION}: settings over the Lola Retro preset"]
+            lines += [f"{k} = {fmt(v)}" for k, v in {**common, **dict(own_params)}.items() if k in known]
+            dst.write_text("\n".join(lines) + "\n")
+
+        def shader_of(e: dict) -> str | None:
+            return {"none": None, "stock": e.get("path"),
+                    "lola": f"{OURS}/{chain}/{glass}/{e.get('as')}"}[e["kind"]]
+
+        doc = {"default": {"shader": shader_of(default), "scanline": False}}
+        doc.update({system: {"shader": shader_of(e)} for system, e in systems.items()})
+        path = USER_SHADERS / "configs" / set_name / "rendering-defaults.yml"
+        path.parent.mkdir(parents=True)
         head = (f"## {set_name.upper()}: Lola Retro {chain}, {glass} glass "
                 f"(Lola Retro for Batocera {VERSION})\n"
                 "## Generated by tools/build.py from mapping/systems.yml. An empty shader means none.\n")
@@ -156,14 +110,14 @@ def build() -> None:
 
     zip_path = DIST / f"lola-retro-batocera-{VERSION}.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-        for f in sorted(out.rglob("*")):
+        for f in sorted(USER_SHADERS.rglob("*")):
             if f.is_file():
-                z.write(f, Path("shaders") / f.relative_to(out))
+                z.write(f, Path("shaders") / f.relative_to(USER_SHADERS))
         for extra in ("install.sh", "README.md"):
             z.write(ROOT / extra, extra)
 
-    print(f"{len(SETS)} sets, {len(wrappers)} presets, {len(systems)} systems -> {zip_path.relative_to(ROOT)}")
+    print(f"{len(SETS)} sets, {len(variants)} presets each, {len(systems)} systems -> {zip_path.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
-    sys.exit(build())
+    build()
