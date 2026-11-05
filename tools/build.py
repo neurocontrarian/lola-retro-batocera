@@ -20,7 +20,7 @@ from pathlib import Path
 
 import yaml
 
-from presets import DIST, LOLA, MAPPING, ROOT, STOCK_SHADERS, USER_SHADERS, declared_params
+from presets import DIST, LOLA, MAPPING, ROOT, STOCK_SHADERS, USER_SHADERS, declared_params, preset_values
 
 VERSION = (ROOT / "VERSION").read_text().strip()
 OURS = "lola-retro-batocera"
@@ -67,6 +67,7 @@ def build() -> None:
     mapping = yaml.safe_load(MAPPING.read_text())
     common = mapping["params"]
     default = entry(mapping["default"])
+    tvs, console_params = set(mapping["tvs"]), mapping["console_params"]
     systems = {k: entry(v) for k, v in mapping["systems"].items()}
 
     variants: dict[str, tuple] = {}  # wrapper name -> (preset, params): one name, one meaning
@@ -94,9 +95,14 @@ def build() -> None:
         for name in sorted(used):
             lola, own_params = variants[name]
             src = lola_preset(chain, glass, lola)
+            console = {}
+            if s.get("tv") and lola in tvs:    # the set's TV, with this console's own values
+                if src.relative_to(LOLA).parts[-3] == "systems":
+                    console = {k: v for k, v in preset_values(src).items() if k in console_params}
+                src = lola_preset(chain, glass, s["tv"])
             known = declared_params(src)
             declared |= known
-            ours = {**s.get("params", {}), **dict(own_params), **preset_params.get(lola, {})}
+            ours = {**console, **s.get("params", {}), **dict(own_params), **preset_params.get(lola, {})}
             if missing := sorted(set(ours) - known):
                 raise SystemExit(f"{src}: no parameter {missing}")
             dst = USER_SHADERS / OURS / set_name / f"{name}.slangp"

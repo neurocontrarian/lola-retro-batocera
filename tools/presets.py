@@ -19,6 +19,7 @@ _REFERENCE = re.compile(r'^#reference "([^"]+)"', re.M)
 _PASS = re.compile(r'^shader\d+\s*=\s*"?([^"\n]+?)"?\s*$', re.M)
 _INCLUDE = re.compile(r'^#include "([^"]+)"', re.M)
 _PRAGMA = re.compile(r"^#pragma parameter (\w+)", re.M)
+_VALUE = re.compile(r'^(LR_\w+)\s*=\s*"?([-\d.]+)"?\s*$', re.M)
 
 
 @functools.cache
@@ -55,3 +56,8 @@ def _pragmas(path: Path) -> frozenset[str]:
 def declared_params(preset: Path) -> set[str]:
     """Every parameter the preset's passes declare."""
     return set().union(*(_pragmas(p) for p in files_opened(preset)))
+
+
+def preset_values(preset: Path) -> dict[str, float]:
+    """The LR_ values one preset file sets itself (not those of the presets it references)."""
+    return {k: float(v) for k, v in _VALUE.findall(preset.read_text())}

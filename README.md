@@ -15,13 +15,26 @@ sur moniteur 15 kHz, DOS sur moniteur VGA, Game Boy sur grille LCD…).
 | `LOLA-RETRO-FULL-FLAT` | complète | plat | idem |
 | `LOLA-RETRO-SUPERLITE` | super lite | bombé | GPU modestes |
 | `LOLA-RETRO-SUPERLITE-FLAT` | super lite | plat | idem |
-| `LOLA-RETRO-PERITEL` | lite | plat | tout en Péritel (RGB), image pleine hauteur, rien sur les systèmes 3D |
 
-Dans les six premiers, chaque console a le téléviseur et le câble que la plupart des joueurs avaient
-(NES, SNES, Mega Drive… en composite). `LOLA-RETRO-PERITEL` garde le preset de chaque console mais passe
-tous les téléviseurs sur le câble RGB (Péritel), remplit la hauteur de l'écran sans bande noire en haut et
-en bas, et laisse sans shader PlayStation, N64, Saturn, Dreamcast, PS2, GameCube/Wii, 3DO, Jaguar, les
-cartes arcade 3D (Naomi, Model 2/3…), Quake et Jedi Knight.
+Dans ces six sets, chaque console a le téléviseur et le câble que la plupart des joueurs avaient (NES,
+SNES, Mega Drive… en composite ; PS2 et GameCube en S-Vidéo).
+
+**Les sets par appareil** remplacent ce téléviseur par le même appareil pour toutes les consoles. Chaque
+console garde ses propres réglages (timing, encodeur, standard TV). Tous sont en chaîne lite, écran plat,
+l'image remplit la hauteur sans bande noire en haut et en bas, et les systèmes 3D n'ont pas de shader
+(PlayStation, N64, Saturn, Dreamcast, PS2, GameCube/Wii, 3DO, Jaguar, Naomi, Model 2/3…, Quake, Jedi
+Knight). Les ordinateurs et l'arcade gardent leur moniteur (VGA, 1084S, X68000, borne 15 kHz).
+
+| Set (menu) | Appareil |
+|---|---|
+| `LOLA-RETRO-RF` | vieux téléviseur sur la prise antenne : neige, image fantôme, flou |
+| `LOLA-RETRO-COMPOSITE` | téléviseur de salon, câble RCA jaune : couleurs qui bavent, tramages fondus |
+| `LOLA-RETRO-S-VIDEO` | Sony Trinitron en S-Vidéo : plus net, blanc froid |
+| `LOLA-RETRO-PERITEL` | téléviseur de salon en Péritel RGB : net, sans défaut de signal |
+| `LOLA-RETRO-PVM-RGB` | moniteur pro Sony PVM/BVM en RGB : le plus net, lignes très marquées |
+| `LOLA-RETRO-PVM-COMPOSITE` | moniteur pro Sony PVM-14L2 en composite : propre mais fondu |
+| `LOLA-RETRO-PROJECTOR` | projecteur arcade à trois tubes : pas de masque, franges de couleur, doux |
+| `LOLA-RETRO-TV-SHOW` | le jeu vu dans une émission télé des années 90 (diffusée en PAL, reçue à l'antenne) |
 
 Repères mesurés (projet StrikeHD, même shader) : RTX 3090 en 4K, lite = 4,5 ms par image et ~60 W, la
 chaîne complète = 12,4 ms et ~310 W pour aucune différence visible. Intel UHD 630 en 1080p : lite = 72 ms,
