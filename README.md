@@ -71,7 +71,7 @@ The presets are Lola Retro's own, with one setting added (`params` in `mapping/s
 
 | Parameter | Value | Effect |
 |---|---|---|
-| Dither blend auto (`LR_DBLEND_AUTO`) | 1 | on RGB and S-Video, 1-pixel dithering blends as it did on composite: Sonic's waterfall looks transparent instead of striped. Not on `LOLA-RETRO-PVM-RGB` and `LOLA-RETRO-PROJECTOR`, whose real counterparts showed the stripes |
+| Dither blend auto (`LR_DBLEND_AUTO`) | 1 | on RGB and S-Video, 1-pixel dithering blends as it did on composite: Sonic's waterfall looks transparent instead of striped. Not on `LOLA-RETRO-PROJECTOR`, whose real counterpart showed the stripes |
 
 PlayStation: Console timing 4 and "Frames over 300 lines" 1, because the default cores send 1× frames.
 At 2× internal resolution, set "Frames over 300 lines" back to 0 (Quick Menu → Shaders → Shader Parameters).
