@@ -31,6 +31,7 @@ arcade keep their monitors (VGA, 1084S, X68000, 15 kHz arcade).
 | `LOLA-RETRO-COMPOSITE` | living-room TV on the yellow RCA cable: colour bleed, dithering blends |
 | `LOLA-RETRO-S-VIDEO` | Sony Trinitron on S-Video: sharper, cool white |
 | `LOLA-RETRO-PERITEL` | living-room TV on SCART (Péritel) RGB: sharp, no signal artefacts |
+| `LOLA-RETRO-PERITEL-VANILLA` | the same TV with none of the settings below (no full height either), to compare |
 | `LOLA-RETRO-PVM-RGB` | Sony PVM/BVM studio monitor on RGB: the sharpest, strong scanlines |
 | `LOLA-RETRO-PVM-COMPOSITE` | Sony PVM-14L2 studio monitor on composite: clean but blended |
 | `LOLA-RETRO-PROJECTOR` | three-tube arcade CRT projector: no mask, colour fringes, soft |

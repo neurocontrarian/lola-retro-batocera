@@ -34,6 +34,8 @@ old_names: [fba, amiga, msx]
 #   tv_params: over the replaced TVs only
 #   preset_params: over one Lola Retro preset, in this set only
 #   none: systems with no shader in this set
+#   vanilla: true leaves out every setting of ours (`params` at the top of this file, the
+#            systems' own params): only Lola Retro's presets and the consoles' own values
 # Settings in a wrapper, the last one winning: `params` at the top of this file, the console's
 # own values (see tvs), the set's params, tv_params, the system's own params, preset_params.
 sets:
@@ -61,6 +63,13 @@ sets:
            jaguar, jaguarcd, naomi, naomi2, atomiswave, systemsp, hikaru, chihiro, model2, model3,
            namco22, quake, jkdf2]
   lola-retro-peritel: {<<: *by_device, tv: consumer-tv-scart-rgb}
+  # The same TV with none of our settings, to compare (no full height either)
+  lola-retro-peritel-vanilla:
+    <<: *by_device
+    tv: consumer-tv-scart-rgb
+    vanilla: true
+    params: {}
+    preset_params: {}
   lola-retro-rf: {<<: *by_device, tv: old-tv-rf}
   lola-retro-s-video: {<<: *by_device, tv: trinitron-s-video}
   lola-retro-pvm-rgb: {<<: *by_device, tv: studio-monitor-rgb}
