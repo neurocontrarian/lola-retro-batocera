@@ -16,13 +16,9 @@
 
 default: consumer-tv-scart-rgb
 
-# Settings over every Lola Retro preset (the defaults StrikeHD settled on). A system's own
-# params win over these.
+# Settings over every Lola Retro preset, kept to the fewest. A system's own params win over these.
 params:
-  LR_MASK_PX: 1       # mask on whole screen pixels: no moire below 4K (Lola Retro issue #11)
-  LR_SMOOTH: 1        # each screen pixel shows the light averaged over its height: less moire
-  LR_DBLEND_AUTO: 1   # RGB and S-Video presets blend 1-pixel dither as composite did
-  LR_DAMPER: 0        # no Trinitron damper wires across the picture (issue #16)
+  LR_DBLEND_AUTO: 1   # RGB and S-Video presets blend 1-pixel dithering as composite did (Sonic's waterfall)
 
 # Names older Batocera versions used, kept so older installs get the right picture
 old_names: [fba, amiga, msx]
@@ -34,8 +30,6 @@ old_names: [fba, amiga, msx]
 #   tv_params: over the replaced TVs only
 #   preset_params: over one Lola Retro preset, in this set only
 #   none: systems with no shader in this set
-#   vanilla: true leaves out every setting of ours (`params` at the top of this file, the
-#            systems' own params): only Lola Retro's presets and the consoles' own values
 # Settings in a wrapper, the last one winning: `params` at the top of this file, the console's
 # own values (see tvs), the set's params, tv_params, the system's own params, preset_params.
 sets:
@@ -45,32 +39,16 @@ sets:
   lola-retro-full-flat: {chain: full, glass: flat}
   lola-retro-superlite: {chain: super-lite, glass: curved}
   lola-retro-superlite-flat: {chain: super-lite, glass: flat}
-  # The sets by device: flat glass, the picture filling the height, no shader on the 3D
-  # systems, and every TV replaced by the one in `tv`, each console keeping its own values.
-  # Computers and arcade keep their monitors.
+  # The sets by device: flat glass, no shader on the 3D systems, and every TV replaced by the one
+  # in `tv`, each console keeping its own values. Computers and arcade keep their monitors.
   lola-retro-composite: &by_device
     chain: lite
     glass: flat
     tv: consumer-tv-composite
-    params:
-      LR_FILL: 1                      # the core's lines fill the height: no border above or below
-    preset_params:
-      dos-pc: {LR_OVERSCAN: 0}        # computer monitors draw a black border otherwise
-      pc-98: {LR_OVERSCAN: 0}
-      x68000: {LR_OVERSCAN: 0}
-      arcade-15khz: {LR_OVERSCAN_V: -0.055}   # whole game, exactly the height (its border was -0.04)
     none: [psx, n64, n64dd, saturn, dreamcast, ps2, namco2x6, gamecube, wii, triforce, 3do,
            jaguar, jaguarcd, naomi, naomi2, atomiswave, systemsp, hikaru, chihiro, model2, model3,
            namco22, quake, jkdf2]
   lola-retro-peritel: {<<: *by_device, tv: consumer-tv-scart-rgb}
-  # The same TV with none of our settings, to compare (no full height either)
-  lola-retro-peritel-vanilla:
-    <<: *by_device
-    tv: consumer-tv-scart-rgb
-    vanilla: true
-    params:
-      LR_DBLEND_AUTO: 1   # the only one kept: the Sonic waterfall and other dithering blend as on composite
-    preset_params: {}
   lola-retro-rf: {<<: *by_device, tv: old-tv-rf}
   lola-retro-s-video: {<<: *by_device, tv: trinitron-s-video}
   lola-retro-pvm-rgb: {<<: *by_device, tv: studio-monitor-rgb}

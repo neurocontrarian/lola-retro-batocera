@@ -20,6 +20,7 @@ remove() {
     for set in "$PKG"/configs/*/; do
         rm -rf "$DEST/configs/$(basename "$set")"
     done
+    rm -rf "$DEST/configs/lola-retro-peritel-vanilla"   # a set of 0.1.0 test builds
 }
 
 if [ "$1" = "--uninstall" ]; then

@@ -20,8 +20,8 @@ In these six sets every console gets the TV and cable most players had (NES, SNE
 composite; PS2 and GameCube on S-Video).
 
 **The sets by device** put the same device in place of that TV for every console. Each console keeps its
-own values (timing, encoder, TV standard). All of them use the lite chain and flat glass, the picture
-fills the height with no black bar above or below, and the 3D systems get no shader (PlayStation, N64,
+own values (timing, encoder, TV standard). All of them use the lite chain and flat glass, and the 3D
+systems get no shader (PlayStation, N64,
 Saturn, Dreamcast, PS2, GameCube/Wii, 3DO, Jaguar, Naomi, Model 2/3…, Quake, Jedi Knight). Computers and
 arcade keep their monitors (VGA, 1084S, X68000, 15 kHz arcade).
 
@@ -31,7 +31,6 @@ arcade keep their monitors (VGA, 1084S, X68000, 15 kHz arcade).
 | `LOLA-RETRO-COMPOSITE` | living-room TV on the yellow RCA cable: colour bleed, dithering blends |
 | `LOLA-RETRO-S-VIDEO` | Sony Trinitron on S-Video: sharper, cool white |
 | `LOLA-RETRO-PERITEL` | living-room TV on SCART (Péritel) RGB: sharp, no signal artefacts |
-| `LOLA-RETRO-PERITEL-VANILLA` | the same TV with only Dither blend auto from the settings below (no full height either): sharper |
 | `LOLA-RETRO-PVM-RGB` | Sony PVM/BVM studio monitor on RGB: the sharpest, strong scanlines |
 | `LOLA-RETRO-PVM-COMPOSITE` | Sony PVM-14L2 studio monitor on composite: clean but blended |
 | `LOLA-RETRO-PROJECTOR` | three-tube arcade CRT projector: no mask, colour fringes, soft |
@@ -67,20 +66,14 @@ system's advanced settings.
   configs/lola-retro*/rendering-defaults.yml   the sets: which preset for which system
 ```
 
-Settings added over the original presets (the ones chosen for StrikeHD, `params` in `mapping/systems.yml`):
+The presets are Lola Retro's own, with one setting added (`params` in `mapping/systems.yml`):
 
 | Parameter | Value | Effect |
 |---|---|---|
-| Mask on screen pixels (`LR_MASK_PX`) | 1 | mask on whole screen pixels: no moiré below 4K |
-| Scanline smoothing (`LR_SMOOTH`) | 1 | less moiré on the lines |
-| Dither blend auto (`LR_DBLEND_AUTO`) | 1 | on RGB and S-Video, 1-pixel dithering blends as it did on composite (water, shadows) |
-| Damper wires (`LR_DAMPER`) | 0 | no Trinitron wires across the picture |
+| Dither blend auto (`LR_DBLEND_AUTO`) | 1 | on RGB and S-Video, 1-pixel dithering blends as it did on composite: Sonic's waterfall looks transparent instead of striped |
 
 PlayStation: Console timing 4 and "Frames over 300 lines" 1, because the default cores send 1× frames.
 At 2× internal resolution, set "Frames over 300 lines" back to 0 (Quick Menu → Shaders → Shader Parameters).
-
-The sets by device also set Picture height (`LR_FILL`) to 1, Overscan to 0 on the computer monitors and
-Overscan height to −0.055 on `arcade-15khz`, so the picture fills the height.
 
 Every parameter can still be changed in game in RetroArch (Hotkey + B → Quick Menu → Shaders).
 

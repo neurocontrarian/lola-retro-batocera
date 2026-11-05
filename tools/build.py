@@ -105,8 +105,6 @@ def build() -> None:
         written: dict[Path, str] = {}
         for name in sorted(used):
             lola, own_params = variants[name]
-            if s.get("vanilla"):
-                own_params = []
             src = lola_preset(chain, glass, lola)
             console, extra, file_name = {}, {}, name
             if tv and lola in tvs:   # the set's TV, with the console's own values
@@ -128,7 +126,7 @@ def build() -> None:
             ref = os.path.relpath(USER_SHADERS / "lola-retro" / src.relative_to(LOLA), dst.parent)
             lines = [f'#reference "{Path(ref).as_posix()}"',
                      f"# Lola Retro for Batocera {VERSION}: settings over the Lola Retro preset"]
-            lines += [f"{k} = {fmt(v)}" for k, v in {**({} if s.get("vanilla") else common), **ours}.items()
+            lines += [f"{k} = {fmt(v)}" for k, v in {**common, **ours}.items()
                       if k in known]
             text = "\n".join(lines) + "\n"
             if written.setdefault(dst, text) != text:
