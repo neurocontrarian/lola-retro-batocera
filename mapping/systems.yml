@@ -51,9 +51,10 @@ sets:
   lola-retro-peritel: {<<: *by_device, tv: consumer-tv-scart-rgb}
   lola-retro-rf: {<<: *by_device, tv: old-tv-rf}
   lola-retro-s-video: {<<: *by_device, tv: trinitron-s-video}
-  lola-retro-pvm-rgb: {<<: *by_device, tv: studio-monitor-rgb}
+  # A real PVM or projector on RGB showed the dithering stripes: no Dither blend auto on them
+  lola-retro-pvm-rgb: {<<: *by_device, tv: studio-monitor-rgb, tv_params: {LR_DBLEND_AUTO: 0}}
   lola-retro-pvm-composite: {<<: *by_device, tv: studio-monitor-composite}
-  lola-retro-projector: {<<: *by_device, tv: crt-projector}
+  lola-retro-projector: {<<: *by_device, tv: crt-projector, tv_params: {LR_DBLEND_AUTO: 0}}
   lola-retro-tv-show:
     <<: *by_device
     tv: tv-show-broadcast
