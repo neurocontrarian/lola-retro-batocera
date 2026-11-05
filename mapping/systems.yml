@@ -39,14 +39,12 @@ sets:
   lola-retro-full-flat: {chain: full, glass: flat}
   lola-retro-superlite: {chain: super-lite, glass: curved}
   lola-retro-superlite-flat: {chain: super-lite, glass: flat}
-  # The sets by device: flat glass, no shader on the consoles of the LCD years (PS2, GameCube,
-  # Wii) nor on the PC 3D games, and every TV replaced by the one in `tv`, each console keeping
+  # The sets by device: flat glass, and every TV replaced by the one in `tv`, each console keeping
   # its own values. Computers and arcade keep their monitors.
   lola-retro-composite: &by_device
     chain: lite
     glass: flat
     tv: consumer-tv-composite
-    none: [ps2, gamecube, wii, quake, jkdf2]
   lola-retro-peritel: {<<: *by_device, tv: consumer-tv-scart-rgb}
   lola-retro-rf: {<<: *by_device, tv: old-tv-rf}
   lola-retro-s-video: {<<: *by_device, tv: trinitron-s-video}
@@ -218,6 +216,7 @@ systems:
   adam: master-system
 
   # ---- Other consoles on a TV ----
+  xbox: trinitron-s-video
   3do: consumer-tv-composite
   cdi: consumer-tv-scart-rgb
   intellivision: consumer-tv-composite
@@ -271,7 +270,7 @@ systems:
   archimedes: studio-monitor-rgb
   apple2: studio-monitor-composite
   apple2gs: studio-monitor-rgb
-  macintosh: none                 # built-in high-resolution black and white screen
+  macintosh: dos-pc               # built-in 512x342 black and white tube
   thomson: consumer-tv-scart-rgb  # French machines on the SCART (Peritel) socket
   oricatmos: consumer-tv-scart-rgb
   samcoupe: consumer-tv-scart-rgb
@@ -377,7 +376,6 @@ systems:
 
   # ---- Not games, or modern systems ----
   ports: none
-  xbox: none
   xbox360: none
   vpinball: none
   pygame: none
