@@ -5,7 +5,7 @@ Batocera** : après installation, ils apparaissent dans le menu **Réglages des 
 système reçoit automatiquement le bon téléviseur ou moniteur (NES sur TV composite, Amiga sur 1084S, arcade
 sur moniteur 15 kHz, DOS sur moniteur VGA, Game Boy sur grille LCD…).
 
-## Les six sets
+## Les sets
 
 | Set (menu) | Chaîne Lola Retro | Écran | Pour qui |
 |---|---|---|---|
@@ -15,6 +15,13 @@ sur moniteur 15 kHz, DOS sur moniteur VGA, Game Boy sur grille LCD…).
 | `LOLA-RETRO-FULL-FLAT` | complète | plat | idem |
 | `LOLA-RETRO-SUPERLITE` | super lite | bombé | GPU modestes |
 | `LOLA-RETRO-SUPERLITE-FLAT` | super lite | plat | idem |
+| `LOLA-RETRO-PERITEL` | lite | plat | tout en Péritel (RGB), image pleine hauteur, rien sur les systèmes 3D |
+
+Dans les six premiers, chaque console a le téléviseur et le câble que la plupart des joueurs avaient
+(NES, SNES, Mega Drive… en composite). `LOLA-RETRO-PERITEL` garde le preset de chaque console mais passe
+tous les téléviseurs sur le câble RGB (Péritel), remplit la hauteur de l'écran sans bande noire en haut et
+en bas, et laisse sans shader PlayStation, N64, Saturn, Dreamcast, PS2, GameCube/Wii, 3DO, Jaguar, les
+cartes arcade 3D (Naomi, Model 2/3…), Quake et Jedi Knight.
 
 Repères mesurés (projet StrikeHD, même shader) : RTX 3090 en 4K, lite = 4,5 ms par image et ~60 W, la
 chaîne complète = 12,4 ms et ~310 W pour aucune différence visible. Intel UHD 630 en 1080p : lite = 72 ms,
@@ -42,8 +49,8 @@ options avancées d'un système.
 ```
 /userdata/shaders/
   lola-retro/                  presets RetroArch de Lola Retro, intacts (aussi utilisables depuis le menu RetroArch)
-  lola-retro-batocera/         petits presets : #reference vers ceux de Lola Retro + les réglages ci-dessous
-  configs/lola-retro*/rendering-defaults.yml   les six sets : quel preset pour quel système
+  lola-retro-batocera/<set>/   petits presets : #reference vers ceux de Lola Retro + les réglages ci-dessous
+  configs/lola-retro*/rendering-defaults.yml   les sets : quel preset pour quel système
 ```
 
 Réglages ajoutés par-dessus les presets d'origine (ceux retenus pour StrikeHD, section `params` de `mapping/systems.yml`) :
@@ -90,7 +97,7 @@ python3 tools/check.py   # vérifie que chaque système de Batocera est listé, 
 
 - `third_party/lola-retro/` : `shaders/lola-retro` de Lola Retro au commit indiqué dans `UPSTREAM`.
   Mise à jour : recopier ce dossier depuis un clone récent, puis build + check.
-- `mapping/systems.yml` : la correspondance ; `mapping/batocera-systems.tsv` : la liste des systèmes de
+- `mapping/systems.yml` : les sets et la correspondance ; `mapping/batocera-systems.tsv` : la liste des systèmes de
   Batocera (es_systems.yml) pour vérifier qu'aucun n'est oublié.
 - Le code de Batocera relu pour ce projet : `batocera_launch/config/config.py` (`render_config`, sets
   utilisateur dans `/userdata/shaders/configs`), `batocera_launch_libretro/emulator.py` (`.slangp` ou
