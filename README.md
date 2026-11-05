@@ -32,6 +32,8 @@ arcade keep their monitors (VGA, 1084S, X68000, 15 kHz arcade).
 | `LOLA-RETRO-S-VIDEO` | Sony Trinitron on S-Video: sharper, cool white |
 | `LOLA-RETRO-PERITEL` | living-room TV on SCART (Péritel) RGB: sharp, no signal artefacts |
 | `LOLA-RETRO-PVM-RGB` | Sony PVM/BVM studio monitor on RGB: the sharpest, strong scanlines |
+| `LOLA-RETRO-PERITEL-PLUS` | `PERITEL` with Dither blend auto 1 and Phosphor afterglow 0 (see below) |
+| `LOLA-RETRO-PVM-RGB-PLUS` | `PVM-RGB` with the same two settings |
 | `LOLA-RETRO-PVM-COMPOSITE` | Sony PVM-14L2 studio monitor on composite: clean but blended |
 | `LOLA-RETRO-PROJECTOR` | three-tube arcade CRT projector: no mask, colour fringes, soft |
 | `LOLA-RETRO-TV-SHOW` | the game as seen on a 90s TV programme (broadcast in PAL, received with an antenna) |
@@ -67,11 +69,13 @@ system's advanced settings.
   configs/lola-retro*/rendering-defaults.yml   the sets: which preset for which system
 ```
 
-The presets are Lola Retro's own, with one setting added (`params` in `mapping/systems.yml`):
+The presets keep Lola Retro's settings. Only the two `-PLUS` sets add two (`params` of those sets in
+`mapping/systems.yml`):
 
 | Parameter | Value | Effect |
 |---|---|---|
-| Dither blend auto (`LR_DBLEND_AUTO`) | 1 | on RGB and S-Video, 1-pixel dithering blends as it did on composite: Sonic's waterfall looks transparent instead of striped. Not on `LOLA-RETRO-PROJECTOR`, whose real counterpart showed the stripes |
+| Dither blend auto (`LR_DBLEND_AUTO`) | 1 | on RGB, 1-pixel dithering blends as it did on composite: Sonic's waterfall looks transparent instead of striped |
+| Phosphor afterglow (`LR_PERSIST`) | 0 | no trail behind moving sprites (Lola Retro's default is 0.08) |
 
 PlayStation: Console timing 4 and "Frames over 300 lines" 1, because the default cores send 1× frames.
 At 2× internal resolution, set "Frames over 300 lines" back to 0 (Quick Menu → Shaders → Shader Parameters).

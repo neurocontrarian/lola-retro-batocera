@@ -16,9 +16,9 @@
 
 default: consumer-tv-scart-rgb
 
-# Settings over every Lola Retro preset, kept to the fewest. A system's own params win over these.
-params:
-  LR_DBLEND_AUTO: 1   # RGB and S-Video presets blend 1-pixel dithering as composite did (Sonic's waterfall)
+# Settings over every Lola Retro preset: none, the sets keep Lola Retro's defaults. A system's own
+# params win over these.
+params: {}
 
 # Names older Batocera versions used, kept so older installs get the right picture
 old_names: [fba, amiga, msx]
@@ -52,9 +52,15 @@ sets:
   lola-retro-rf: {<<: *by_device, tv: old-tv-rf}
   lola-retro-s-video: {<<: *by_device, tv: trinitron-s-video}
   lola-retro-pvm-rgb: {<<: *by_device, tv: studio-monitor-rgb}
+  # The same two with Dither blend auto (dithering blends as on composite: Sonic's waterfall) and
+  # no phosphor afterglow (no trail behind moving sprites)
+  lola-retro-peritel-plus:
+    <<: *by_device
+    tv: consumer-tv-scart-rgb
+    params: &plus {LR_DBLEND_AUTO: 1, LR_PERSIST: 0}
+  lola-retro-pvm-rgb-plus: {<<: *by_device, tv: studio-monitor-rgb, params: *plus}
   lola-retro-pvm-composite: {<<: *by_device, tv: studio-monitor-composite}
-  # A real projector on RGB showed the dithering stripes: no Dither blend auto in this set
-  lola-retro-projector: {<<: *by_device, tv: crt-projector, params: {LR_DBLEND_AUTO: 0}}
+  lola-retro-projector: {<<: *by_device, tv: crt-projector}
   lola-retro-tv-show:
     <<: *by_device
     tv: tv-show-broadcast
