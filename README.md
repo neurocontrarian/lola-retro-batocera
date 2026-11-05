@@ -21,9 +21,9 @@ composite; PS2 and GameCube on S-Video).
 
 **The sets by device** put the same device in place of that TV for every console. Each console keeps its
 own values (timing, encoder, TV standard). All of them use the lite chain and flat glass, and the 3D
-systems get no shader (PlayStation, N64,
-Saturn, Dreamcast, PS2, GameCube/Wii, 3DO, Jaguar, Naomi, Model 2/3…, Quake, Jedi Knight). Computers and
-arcade keep their monitors (VGA, 1084S, X68000, 15 kHz arcade).
+systems get no shader (N64, Dreamcast, PS2, GameCube/Wii, Jaguar, Naomi, Model 2/3…, Quake, Jedi
+Knight); PlayStation, Saturn and 3DO keep theirs for their many 2D games. Computers and arcade keep
+their monitors (VGA, 1084S, X68000, 15 kHz arcade).
 
 | Set (menu) | Device |
 |---|---|

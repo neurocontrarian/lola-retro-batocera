@@ -39,13 +39,14 @@ sets:
   lola-retro-full-flat: {chain: full, glass: flat}
   lola-retro-superlite: {chain: super-lite, glass: curved}
   lola-retro-superlite-flat: {chain: super-lite, glass: flat}
-  # The sets by device: flat glass, no shader on the 3D systems, and every TV replaced by the one
-  # in `tv`, each console keeping its own values. Computers and arcade keep their monitors.
+  # The sets by device: flat glass, no shader on the 3D systems (PlayStation, Saturn and 3DO keep
+  # theirs for their many 2D games), and every TV replaced by the one in `tv`, each console
+  # keeping its own values. Computers and arcade keep their monitors.
   lola-retro-composite: &by_device
     chain: lite
     glass: flat
     tv: consumer-tv-composite
-    none: [psx, n64, n64dd, saturn, dreamcast, ps2, namco2x6, gamecube, wii, triforce, 3do,
+    none: [n64, n64dd, dreamcast, ps2, namco2x6, gamecube, wii, triforce,
            jaguar, jaguarcd, naomi, naomi2, atomiswave, systemsp, hikaru, chihiro, model2, model3,
            namco22, quake, jkdf2]
   lola-retro-peritel: {<<: *by_device, tv: consumer-tv-scart-rgb}
