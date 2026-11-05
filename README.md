@@ -21,7 +21,7 @@ composite; PS2 and GameCube on S-Video).
 
 **The sets by device** put the same device in place of that TV for every console. Each console keeps its
 own values (timing, encoder, TV standard). All of them use the lite chain and flat glass, and PS2,
-GameCube, Wii, Jaguar, Quake and Jedi Knight get no shader. Computers and arcade keep their monitors
+GameCube, Wii, Quake and Jedi Knight get no shader. Computers and arcade keep their monitors
 (VGA, 1084S, X68000, 15 kHz arcade).
 
 | Set (menu) | Device |

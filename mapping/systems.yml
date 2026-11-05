@@ -40,13 +40,13 @@ sets:
   lola-retro-superlite: {chain: super-lite, glass: curved}
   lola-retro-superlite-flat: {chain: super-lite, glass: flat}
   # The sets by device: flat glass, no shader on the consoles of the LCD years (PS2, GameCube,
-  # Wii), Jaguar and the PC 3D games, and every TV replaced by the one in `tv`, each console keeping
+  # Wii) nor on the PC 3D games, and every TV replaced by the one in `tv`, each console keeping
   # its own values. Computers and arcade keep their monitors.
   lola-retro-composite: &by_device
     chain: lite
     glass: flat
     tv: consumer-tv-composite
-    none: [ps2, gamecube, wii, jaguar, jaguarcd, quake, jkdf2]
+    none: [ps2, gamecube, wii, quake, jkdf2]
   lola-retro-peritel: {<<: *by_device, tv: consumer-tv-scart-rgb}
   lola-retro-rf: {<<: *by_device, tv: old-tv-rf}
   lola-retro-s-video: {<<: *by_device, tv: trinitron-s-video}
