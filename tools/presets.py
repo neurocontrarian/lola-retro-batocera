@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import functools
 import re
+import types
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -58,6 +59,7 @@ def declared_params(preset: Path) -> set[str]:
     return set().union(*(_pragmas(p) for p in files_opened(preset)))
 
 
-def preset_values(preset: Path) -> dict[str, float]:
+@functools.cache
+def preset_values(preset: Path) -> types.MappingProxyType:
     """The LR_ values one preset file sets itself (not those of the presets it references)."""
-    return {k: float(v) for k, v in _VALUE.findall(preset.read_text())}
+    return types.MappingProxyType({k: float(v) for k, v in _VALUE.findall(preset.read_text())})

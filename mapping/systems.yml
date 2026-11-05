@@ -29,9 +29,13 @@ old_names: [fba, amiga, msx]
 
 # The shader sets Batocera's menu lists (folder names, shown in capitals).
 #   chain: lite, full or super-lite        glass: curved or flat
-#   params: over every preset of the set (a system's own params win)
+#   tv: a device preset put in place of every TV (the presets in `tvs`)
+#   params: over every preset of the set
+#   tv_params: over the replaced TVs only
 #   preset_params: over one Lola Retro preset, in this set only
 #   none: systems with no shader in this set
+# Settings in a wrapper, the last one winning: `params` at the top of this file, the console's
+# own values (see tvs), the set's params, tv_params, the system's own params, preset_params.
 sets:
   lola-retro: {chain: lite, glass: curved}
   lola-retro-flat: {chain: lite, glass: flat}
@@ -40,8 +44,8 @@ sets:
   lola-retro-superlite: {chain: super-lite, glass: curved}
   lola-retro-superlite-flat: {chain: super-lite, glass: flat}
   # The sets by device: flat glass, the picture filling the height, no shader on the 3D
-  # systems, and every TV replaced by the one in `tv` (each console keeps its own values, see
-  # console_params). Computers and arcade keep their monitors.
+  # systems, and every TV replaced by the one in `tv`, each console keeping its own values.
+  # Computers and arcade keep their monitors.
   lola-retro-composite: &by_device
     chain: lite
     glass: flat
@@ -56,10 +60,7 @@ sets:
     none: [psx, n64, n64dd, saturn, dreamcast, ps2, namco2x6, gamecube, wii, triforce, 3do,
            jaguar, jaguarcd, naomi, naomi2, atomiswave, systemsp, hikaru, chihiro, model2, model3,
            namco22, quake, jkdf2]
-  lola-retro-peritel:
-    <<: *by_device
-    tv: consumer-tv-scart-rgb
-    params: {LR_FILL: 1, LR_CABLE: 3}  # the studio monitors of computers on RGB too
+  lola-retro-peritel: {<<: *by_device, tv: consumer-tv-scart-rgb}
   lola-retro-rf: {<<: *by_device, tv: old-tv-rf}
   lola-retro-s-video: {<<: *by_device, tv: trinitron-s-video}
   lola-retro-pvm-rgb: {<<: *by_device, tv: studio-monitor-rgb}
@@ -68,13 +69,27 @@ sets:
   lola-retro-tv-show:
     <<: *by_device
     tv: tv-show-broadcast
-    params: {LR_FILL: 1, LR_NORM: 2}  # a European programme, whatever the console's standard
+    tv_params: {LR_NORM: 2}           # a European programme, whatever the console's standard
 
-# The presets above that are a TV, which a set's `tv` replaces
-tvs: [consumer-tv-composite, consumer-tv-scart-rgb, old-tv-rf, trinitron-s-video, nes, snes,
-      master-system, mega-drive-genesis, pc-engine-turbografx, playstation, saturn, nintendo-64,
-      dreamcast, playstation-2, gamecube]
-# What a system preset sets for its console rather than its TV: kept when the TV is replaced
+# The presets that are a TV, which a set's `tv` replaces, and the device preset each is built
+# on. Where a system preset's console_params differ from that device, they are the console's own
+# (its timing, its encoder, its TV standard) and stay on the new TV.
+tvs:
+  consumer-tv-composite: consumer-tv-composite
+  consumer-tv-scart-rgb: consumer-tv-scart-rgb
+  old-tv-rf: old-tv-rf
+  trinitron-s-video: trinitron-s-video
+  nes: consumer-tv-composite
+  snes: consumer-tv-composite
+  master-system: consumer-tv-composite
+  mega-drive-genesis: consumer-tv-composite
+  pc-engine-turbografx: consumer-tv-composite
+  playstation: consumer-tv-composite
+  saturn: consumer-tv-composite
+  nintendo-64: consumer-tv-composite
+  dreamcast: consumer-tv-composite
+  playstation-2: trinitron-s-video
+  gamecube: trinitron-s-video
 console_params: [LR_CONSOLE, LR_YTRAP, LR_NORM, LR_HIRES]
 
 lcd: &lcd stock:handheld/lcd-grid-v2   # handhelds had LCD screens, not tubes

@@ -54,20 +54,20 @@ def entry(value) -> dict:
     return {"kind": "lola", "name": value, "as": value, "params": {}}
 
 
-def shader_of(e: dict, set_name: str) -> str | None:
+def shader_of(e: dict, set_name: str, names: dict[str, str]) -> str | None:
     """The value for rendering-defaults.yml (a path under /userdata/shaders or Batocera's own)."""
     if e["kind"] == "none":
         return None
     if e["kind"] == "stock":
         return e["path"]
-    return f"{OURS}/{set_name}/{e['as']}"
+    return f"{OURS}/{set_name}/{names[e['as']]}"
 
 
 def build() -> None:
     mapping = yaml.safe_load(MAPPING.read_text())
     common = mapping["params"]
     default = entry(mapping["default"])
-    tvs, console_params = set(mapping["tvs"]), mapping["console_params"]
+    tvs, console_params = mapping["tvs"], mapping["console_params"]
     systems = {k: entry(v) for k, v in mapping["systems"].items()}
 
     variants: dict[str, tuple] = {}  # wrapper name -> (preset, params): one name, one meaning
@@ -92,29 +92,48 @@ def build() -> None:
         in_set = {k: {"kind": "none"} if k in none else e for k, e in systems.items()}
         used = {e["as"] for e in [default, *in_set.values()] if e["kind"] == "lola"}
 
+        tv = s.get("tv")
+        if tv:
+            if lola_preset(chain, glass, tv).parent.parent.name == "systems":
+                raise SystemExit(f"{set_name}: tv '{tv}' is a system preset, not a device")
+            for lola, base in tvs.items():
+                if lola_preset(chain, glass, base).parent.parent.name == "systems":
+                    raise SystemExit(f"tvs: '{base}' is a system preset, not a device")
+                lola_preset(chain, glass, lola)
+
+        names: dict[str, str] = {}   # wrapper name in the mapping -> file name in this set
+        written: dict[Path, str] = {}
         for name in sorted(used):
             lola, own_params = variants[name]
             src = lola_preset(chain, glass, lola)
-            console = {}
-            if s.get("tv") and lola in tvs:    # the set's TV, with this console's own values
-                if src.relative_to(LOLA).parts[-3] == "systems":
-                    console = {k: v for k, v in preset_values(src).items() if k in console_params}
-                src = lola_preset(chain, glass, s["tv"])
+            console, extra, file_name = {}, {}, name
+            if tv and lola in tvs:   # the set's TV, with the console's own values
+                base = preset_values(lola_preset(chain, glass, tvs[lola]))
+                console = {k: v for k, v in preset_values(src).items()
+                           if k in console_params and v != base.get(k)}
+                extra = s.get("tv_params", {})
+                src = lola_preset(chain, glass, tv)
+                if lola == tvs[lola] and name == lola:   # a bare TV: name the file after the new one
+                    file_name = tv
             known = declared_params(src)
             declared |= known
-            ours = {**console, **s.get("params", {}), **dict(own_params), **preset_params.get(lola, {})}
+            ours = {**console, **s.get("params", {}), **extra, **dict(own_params), **preset_params.get(lola, {})}
             if missing := sorted(set(ours) - known):
                 raise SystemExit(f"{src}: no parameter {missing}")
-            dst = USER_SHADERS / OURS / set_name / f"{name}.slangp"
+            names[name] = file_name
+            dst = USER_SHADERS / OURS / set_name / f"{names[name]}.slangp"
             dst.parent.mkdir(parents=True, exist_ok=True)
             ref = os.path.relpath(USER_SHADERS / "lola-retro" / src.relative_to(LOLA), dst.parent)
             lines = [f'#reference "{Path(ref).as_posix()}"',
                      f"# Lola Retro for Batocera {VERSION}: settings over the Lola Retro preset"]
             lines += [f"{k} = {fmt(v)}" for k, v in {**common, **ours}.items() if k in known]
-            dst.write_text("\n".join(lines) + "\n")
+            text = "\n".join(lines) + "\n"
+            if written.setdefault(dst, text) != text:
+                raise SystemExit(f"{dst}: two presets would share this file")
+            dst.write_text(text)
 
-        doc = {"default": {"shader": shader_of(default, set_name), "scanline": False}}
-        doc.update({system: {"shader": shader_of(e, set_name)} for system, e in in_set.items()})
+        doc = {"default": {"shader": shader_of(default, set_name, names), "scanline": False}}
+        doc.update({system: {"shader": shader_of(e, set_name, names)} for system, e in in_set.items()})
         path = USER_SHADERS / "configs" / set_name / "rendering-defaults.yml"
         path.parent.mkdir(parents=True)
         head = (f"## {set_name.upper()}: Lola Retro {chain}, {glass} glass "
