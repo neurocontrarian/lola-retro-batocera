@@ -118,4 +118,5 @@ python3 tools/check.py   # vérifie que chaque système de Batocera est listé, 
 
 ## Licences
 
+Ce projet (outils, correspondance, presets générés) : MIT, © 2026 neurocontrarian (`LICENSE`).
 Lola Retro : MIT, © 2026 Zoki (`third_party/lola-retro/LICENSE`, installé avec les shaders).
