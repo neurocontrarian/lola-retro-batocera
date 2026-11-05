@@ -68,7 +68,8 @@ sets:
     <<: *by_device
     tv: consumer-tv-scart-rgb
     vanilla: true
-    params: {}
+    params:
+      LR_DBLEND_AUTO: 1   # the only one kept: the Sonic waterfall and other dithering blend as on composite
     preset_params: {}
   lola-retro-rf: {<<: *by_device, tv: old-tv-rf}
   lola-retro-s-video: {<<: *by_device, tv: trinitron-s-video}
