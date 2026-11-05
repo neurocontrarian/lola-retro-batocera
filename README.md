@@ -1,122 +1,125 @@
-# Lola Retro pour Batocera
+# Lola Retro for Batocera
 
-Le shader CRT [Lola Retro](https://github.com/zoran123456/lola-retro) (MIT) sous forme de **shader sets
-Batocera** : après installation, ils apparaissent dans le menu **Réglages des jeux → Shader set**, et chaque
-système reçoit automatiquement le bon téléviseur ou moniteur (NES sur TV composite, Amiga sur 1084S, arcade
-sur moniteur 15 kHz, DOS sur moniteur VGA, Game Boy sur grille LCD…).
+The [Lola Retro](https://github.com/zoran123456/lola-retro) CRT shader (MIT) as **Batocera shader sets**:
+once installed they show up in **Game settings → Shader set**, and every system gets the right TV or
+monitor by itself (NES on a composite TV, Amiga on a 1084S, arcade on a 15 kHz monitor, DOS on a VGA
+monitor, Game Boy on an LCD grid…).
 
-## Les sets
+## The sets
 
-| Set (menu) | Chaîne Lola Retro | Écran | Pour qui |
+| Set (menu) | Lola Retro chain | Glass | For |
 |---|---|---|---|
-| `LOLA-RETRO` | lite | bombé | **recommandé** : même image que la chaîne complète pour une fraction du coût GPU |
-| `LOLA-RETRO-FLAT` | lite | plat | idem, écran plat |
-| `LOLA-RETRO-FULL` | complète | bombé | GPU haut de gamme ; ajoute le tour du tube, démarrage des jeux plus long |
-| `LOLA-RETRO-FULL-FLAT` | complète | plat | idem |
-| `LOLA-RETRO-SUPERLITE` | super lite | bombé | GPU modestes |
-| `LOLA-RETRO-SUPERLITE-FLAT` | super lite | plat | idem |
+| `LOLA-RETRO` | lite | curved | **recommended**: the same picture as the full chain for a fraction of the GPU cost |
+| `LOLA-RETRO-FLAT` | lite | flat | the same, flat glass |
+| `LOLA-RETRO-FULL` | full | curved | high-end GPUs; adds what is around the tube, games take longer to start |
+| `LOLA-RETRO-FULL-FLAT` | full | flat | the same |
+| `LOLA-RETRO-SUPERLITE` | super lite | curved | modest GPUs |
+| `LOLA-RETRO-SUPERLITE-FLAT` | super lite | flat | the same |
 
-Dans ces six sets, chaque console a le téléviseur et le câble que la plupart des joueurs avaient (NES,
-SNES, Mega Drive… en composite ; PS2 et GameCube en S-Vidéo).
+In these six sets every console gets the TV and cable most players had (NES, SNES, Mega Drive… on
+composite; PS2 and GameCube on S-Video).
 
-**Les sets par appareil** remplacent ce téléviseur par le même appareil pour toutes les consoles. Chaque
-console garde ses propres réglages (timing, encodeur, standard TV). Tous sont en chaîne lite, écran plat,
-l'image remplit la hauteur sans bande noire en haut et en bas, et les systèmes 3D n'ont pas de shader
-(PlayStation, N64, Saturn, Dreamcast, PS2, GameCube/Wii, 3DO, Jaguar, Naomi, Model 2/3…, Quake, Jedi
-Knight). Les ordinateurs et l'arcade gardent leur moniteur (VGA, 1084S, X68000, borne 15 kHz).
+**The sets by device** put the same device in place of that TV for every console. Each console keeps its
+own values (timing, encoder, TV standard). All of them use the lite chain and flat glass, the picture
+fills the height with no black bar above or below, and the 3D systems get no shader (PlayStation, N64,
+Saturn, Dreamcast, PS2, GameCube/Wii, 3DO, Jaguar, Naomi, Model 2/3…, Quake, Jedi Knight). Computers and
+arcade keep their monitors (VGA, 1084S, X68000, 15 kHz arcade).
 
-| Set (menu) | Appareil |
+| Set (menu) | Device |
 |---|---|
-| `LOLA-RETRO-RF` | vieux téléviseur sur la prise antenne : neige, image fantôme, flou |
-| `LOLA-RETRO-COMPOSITE` | téléviseur de salon, câble RCA jaune : couleurs qui bavent, tramages fondus |
-| `LOLA-RETRO-S-VIDEO` | Sony Trinitron en S-Vidéo : plus net, blanc froid |
-| `LOLA-RETRO-PERITEL` | téléviseur de salon en Péritel RGB : net, sans défaut de signal |
-| `LOLA-RETRO-PVM-RGB` | moniteur pro Sony PVM/BVM en RGB : le plus net, lignes très marquées |
-| `LOLA-RETRO-PVM-COMPOSITE` | moniteur pro Sony PVM-14L2 en composite : propre mais fondu |
-| `LOLA-RETRO-PROJECTOR` | projecteur arcade à trois tubes : pas de masque, franges de couleur, doux |
-| `LOLA-RETRO-TV-SHOW` | le jeu vu dans une émission télé des années 90 (diffusée en PAL, reçue à l'antenne) |
+| `LOLA-RETRO-RF` | old TV on the antenna input: snow, ghosting, soft focus |
+| `LOLA-RETRO-COMPOSITE` | living-room TV on the yellow RCA cable: colour bleed, dithering blends |
+| `LOLA-RETRO-S-VIDEO` | Sony Trinitron on S-Video: sharper, cool white |
+| `LOLA-RETRO-PERITEL` | living-room TV on SCART (Péritel) RGB: sharp, no signal artefacts |
+| `LOLA-RETRO-PVM-RGB` | Sony PVM/BVM studio monitor on RGB: the sharpest, strong scanlines |
+| `LOLA-RETRO-PVM-COMPOSITE` | Sony PVM-14L2 studio monitor on composite: clean but blended |
+| `LOLA-RETRO-PROJECTOR` | three-tube arcade CRT projector: no mask, colour fringes, soft |
+| `LOLA-RETRO-TV-SHOW` | the game as seen on a 90s TV programme (broadcast in PAL, received with an antenna) |
 
-Repères mesurés (projet StrikeHD, même shader) : RTX 3090 en 4K, lite = 4,5 ms par image et ~60 W, la
-chaîne complète = 12,4 ms et ~310 W pour aucune différence visible. Intel UHD 630 en 1080p : lite = 72 ms,
-trop lent ; les iGPU récents (Intel Core Ultra, Radeon 780M) tiennent la lite. Raspberry Pi 4 et consoles
-portables ARM : trop lents même en super lite (mesuré par l'auteur de Lola Retro, issue #13).
+Measured with the same shader (StrikeHD project): RTX 3090 at 4K, lite = 4.5 ms per frame and ~60 W, the
+full chain = 12.4 ms and ~310 W for no visible difference. Intel UHD 630 at 1080p: lite = 72 ms, too slow;
+recent integrated GPUs (Intel Core Ultra, Radeon 780M) run the lite chain. Raspberry Pi 4 and ARM
+handhelds: too slow even with super lite (measured by the author of Lola Retro, issue #13).
 
 ## Installation
 
-Sur la machine Batocera, depuis le dossier décompressé du zip :
+On the Batocera machine, from the unzipped folder:
 
 ```sh
-sh install.sh              # installe ou met à jour
-sh install.sh --uninstall  # retire tout
+sh install.sh              # install or update
+sh install.sh --uninstall  # remove everything
 ```
 
-Ou à la main : copier le contenu du dossier `shaders/` du zip dans le partage réseau `\\BATOCERA\share\shaders`
-(c'est `/userdata/shaders`). Rien n'est modifié dans le système : Batocera lit les sets utilisateur dans
+Or by hand: copy the contents of the zip's `shaders/` folder to the network share `\\BATOCERA\share\shaders`
+(that is `/userdata/shaders`). Nothing in the system is changed: Batocera reads user sets from
 `/userdata/shaders/configs/`.
 
-Puis : **Menu → Réglages des jeux → Shader set → LOLA-RETRO** (pour tout), ou le même réglage dans les
-options avancées d'un système.
+Then: **Menu → Game settings → Shader set → LOLA-RETRO** (for everything), or the same setting in a
+system's advanced settings.
 
-## Ce qui est installé
+## What is installed
 
 ```
 /userdata/shaders/
-  lola-retro/                  presets RetroArch de Lola Retro, intacts (aussi utilisables depuis le menu RetroArch)
-  lola-retro-batocera/<set>/   petits presets : #reference vers ceux de Lola Retro + les réglages ci-dessous
-  configs/lola-retro*/rendering-defaults.yml   les sets : quel preset pour quel système
+  lola-retro/                  Lola Retro's RetroArch presets, unchanged (also usable from RetroArch's menu)
+  lola-retro-batocera/<set>/   small presets: #reference to Lola Retro's + the settings below
+  configs/lola-retro*/rendering-defaults.yml   the sets: which preset for which system
 ```
 
-Réglages ajoutés par-dessus les presets d'origine (ceux retenus pour StrikeHD, section `params` de `mapping/systems.yml`) :
+Settings added over the original presets (the ones chosen for StrikeHD, `params` in `mapping/systems.yml`):
 
-| Paramètre | Valeur | Effet |
+| Parameter | Value | Effect |
 |---|---|---|
-| Mask on screen pixels (`LR_MASK_PX`) | 1 | masque aligné sur les pixels de l'écran : pas de moiré sous la 4K |
-| Scanline smoothing (`LR_SMOOTH`) | 1 | moins de moiré sur les lignes |
-| Dither blend auto (`LR_DBLEND_AUTO`) | 1 | en RGB et S-Video, le tramage d'un pixel se fond comme en composite (eaux, ombres) |
-| Damper wires (`LR_DAMPER`) | 0 | pas de fils de Trinitron en travers de l'image |
+| Mask on screen pixels (`LR_MASK_PX`) | 1 | mask on whole screen pixels: no moiré below 4K |
+| Scanline smoothing (`LR_SMOOTH`) | 1 | less moiré on the lines |
+| Dither blend auto (`LR_DBLEND_AUTO`) | 1 | on RGB and S-Video, 1-pixel dithering blends as it did on composite (water, shadows) |
+| Damper wires (`LR_DAMPER`) | 0 | no Trinitron wires across the picture |
 
-PlayStation : timing console 4 et « Frames over 300 lines » 1, car les cœurs par défaut envoient l'image 1×.
-En résolution interne 2×, remettre « Frames over 300 lines » à 0 (Menu rapide → Shaders → Paramètres).
+PlayStation: Console timing 4 and "Frames over 300 lines" 1, because the default cores send 1× frames.
+At 2× internal resolution, set "Frames over 300 lines" back to 0 (Quick Menu → Shaders → Shader Parameters).
 
-Tous les paramètres restent réglables en jeu dans RetroArch (Hotkey + B → Menu rapide → Shaders).
+The sets by device also set Picture height (`LR_FILL`) to 1, Overscan to 0 on the computer monitors and
+Overscan height to −0.055 on `arcade-15khz`, so the picture fills the height.
 
-## Ce que ça couvre, et ce que ça ne couvre pas
+Every parameter can still be changed in game in RetroArch (Hotkey + B → Quick Menu → Shaders).
 
-- **Tous les systèmes lancés par un cœur RetroArch** (la grande majorité des systèmes rétro de Batocera).
-  La correspondance système → preset est dans `mapping/systems.yml` (tous les systèmes de Batocera y sont listés).
-- **Les émulateurs autonomes** (PCSX2, Dolphin, Mupen64Plus, DuckStation, PPSSPP, Cemu, MAME autonome…)
-  n'utilisent pas les shader sets de Batocera : chacun a ses propres filtres. Les systèmes concernés sont
-  quand même listés : en passant un système sur son cœur RetroArch (option *Émulateur* du système, par ex.
-  N64 → mupen64plus-next, PS2 → lrps2, GameCube → dolphin libretro), il reçoit le bon preset.
-- **Portables à écran LCD** : la grille LCD d'origine de Batocera (`handheld/lcd-grid-v2`), puisqu'elles
-  n'avaient pas de tube. **Vectrex, Virtual Boy, Game & Watch, DS, 3DS, PSP et systèmes HD** : pas de shader.
+## What it covers, and what it doesn't
 
-## Pilote vidéo
+- **Every system run by a RetroArch core** (most of Batocera's retro systems). The system → preset
+  mapping is in `mapping/systems.yml`, which lists every Batocera system.
+- **Standalone emulators** (PCSX2, Dolphin, Mupen64Plus, DuckStation, PPSSPP, Cemu, standalone MAME…)
+  don't use Batocera's shader sets: each has its own filters. Their systems are listed anyway: switch
+  a system to its RetroArch core (the system's *Emulator* option, e.g. N64 → mupen64plus-next, PS2 →
+  lrps2, GameCube → dolphin libretro) and it gets the right preset.
+- **LCD handhelds**: Batocera's own LCD grid (`handheld/lcd-grid-v2`), since they had no tube.
+  **Vectrex, Virtual Boy, Game & Watch, DS, 3DS, PSP and HD systems**: no shader.
 
-Les presets n'existent qu'en slang : Batocera le détecte et lance RetroArch en **glcore** (OpenGL 3.1+)
-sur NVIDIA, AMD et Intel, sauf si un pilote est forcé dans les options. En **Vulkan** (option *Pilote
-graphique*), ça marche aussi. Le vieux pilote `gl` ne lit pas le slang : avec lui, pas de shader (cas des
-cœurs YabaSanshiro, PPSSPP et Boom3, que Batocera met sur `gl`).
+## Video driver
 
-NVIDIA sous X11 : si une bande de déchirement fixe apparaît en plein écran, c'est le compositeur picom de
-Batocera (issue batocera-linux/batocera.linux#17272), pas le shader.
+The presets exist in slang only: Batocera detects it and starts RetroArch on **glcore** (OpenGL 3.1+)
+on NVIDIA, AMD and Intel, unless a driver is forced in the options. **Vulkan** (the *Graphics API*
+option) works too and is recommended by Lola Retro. The old `gl` driver doesn't read slang: with it,
+there is no shader (the YabaSanshiro, PPSSPP and Boom3 cores, which Batocera puts on `gl`).
 
-## Développement
+NVIDIA on X11: if a fixed tearing band shows in full screen, it is Batocera's picom compositor
+(issue batocera-linux/batocera.linux#17272), not the shader.
+
+## Development
 
 ```sh
-python3 tools/build.py   # dist/shaders/ et dist/lola-retro-batocera-<version>.zip
-python3 tools/check.py   # vérifie que chaque système de Batocera est listé, résout chaque système de chaque set comme Batocera, vérifie chaque fichier ouvert
+python3 tools/build.py   # dist/shaders/ and dist/lola-retro-batocera-<version>.zip
+python3 tools/check.py   # checks every Batocera system is listed, resolves every system of every set as Batocera does, checks every file opened
 ```
 
-- `third_party/lola-retro/` : `shaders/lola-retro` de Lola Retro au commit indiqué dans `UPSTREAM`.
-  Mise à jour : recopier ce dossier depuis un clone récent, puis build + check.
-- `mapping/systems.yml` : les sets et la correspondance ; `mapping/batocera-systems.tsv` : la liste des systèmes de
-  Batocera (es_systems.yml) pour vérifier qu'aucun n'est oublié.
-- Le code de Batocera relu pour ce projet : `batocera_launch/config/config.py` (`render_config`, sets
-  utilisateur dans `/userdata/shaders/configs`), `batocera_launch_libretro/emulator.py` (`.slangp` ou
-  `.glslp` selon le pilote, `_slang_only_shader` qui force glcore), ES `ApiSystem::getShaderList`.
+- `third_party/lola-retro/`: Lola Retro's `shaders/lola-retro` at the commit in `UPSTREAM`.
+  To update: copy that folder again from a recent clone, then build + check.
+- `mapping/systems.yml`: the sets and the mapping; `mapping/batocera-systems.tsv`: Batocera's list of
+  systems (es_systems.yml), to check none is missing.
+- The Batocera code read for this project: `batocera_launch/config/config.py` (`render_config`, user
+  sets in `/userdata/shaders/configs`), `batocera_launch_libretro/emulator.py` (`.slangp` or `.glslp`
+  by driver, `_slang_only_shader` which forces glcore), ES `ApiSystem::getShaderList`.
 
 ## Licences
 
-Ce projet (outils, correspondance, presets générés) : MIT, © 2026 neurocontrarian (`LICENSE`).
-Lola Retro : MIT, © 2026 Zoki (`third_party/lola-retro/LICENSE`, installé avec les shaders).
+This project (tools, mapping, generated presets): MIT, © 2026 neurocontrarian (`LICENSE`).
+Lola Retro: MIT, © 2026 Zoki (`third_party/lola-retro/LICENSE`, installed with the shaders).
