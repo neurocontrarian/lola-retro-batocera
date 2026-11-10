@@ -75,6 +75,9 @@ The presets keep Lola Retro's settings. Only the two `-PLUS` sets add two (`para
 | Dither blend auto (`LR_DBLEND_AUTO`) | 1 | on RGB, 1-pixel dithering blends as it did on composite: Sonic's waterfall looks transparent instead of striped |
 | Phosphor afterglow (`LR_PERSIST`) | 0 | no trail behind moving sprites (Lola Retro's default is 0.08) |
 
+Dither blend auto works on console and Amiga timings only: arcade (Console timing 8) and computer
+monitors keep Dither blend as it is set.
+
 PlayStation: Console timing 4 and "Frames over 300 lines" 1, because the default cores send 1× frames.
 At 2× internal resolution, set "Frames over 300 lines" back to 0 (Quick Menu → Shaders → Shader Parameters).
 
@@ -88,6 +91,9 @@ Every parameter can still be changed in game in RetroArch (Hotkey + B → Quick 
   don't use Batocera's shader sets: each has its own filters. Their systems are listed anyway: switch
   a system to its RetroArch core (the system's *Emulator* option, e.g. N64 → mupen64plus-next, PS2 →
   lrps2, GameCube → dolphin libretro) and it gets the right preset.
+- **Arcade**: `arcade-15khz` sets Console timing 8 for every MAME and FBNeo game, so 24 and 31 kHz
+  games in those cores are drawn on a 15 kHz tube too. One preset per system can't avoid that. Naomi and
+  Atomiswave use `dos-pc` (31 kHz, 480 lines), the closest preset until Lola Retro has an arcade 31 kHz one.
 - **LCD handhelds**: Batocera's own LCD grid (`handheld/lcd-grid-v2`), since they had no tube.
   **Vectrex, Virtual Boy, Game & Watch, DS, 3DS, PSP and HD systems**: no shader.
 
